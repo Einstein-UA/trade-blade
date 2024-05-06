@@ -11,48 +11,36 @@ import { useEffect, useRef, useState } from 'react';
 const Slider = () => {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+	const swiperRef = useRef(null);
+	const scrollbarDragElRef = useRef(null);
+	const scrollbarElRef = useRef(null);
 
+	useEffect(() => {
+		const swiperInstance = swiperRef.current.swiper;
+		const scrollbar = swiperInstance.scrollbar;
 
-    const swiperRef = useRef(null);
-		const scrollbarDragElRef = useRef(null);
-		const scrollbarElRef = useRef(null);
+		if (scrollbar) {
+			scrollbarDragElRef.current = scrollbar.dragEl;
+			scrollbarElRef.current = scrollbar.el;
+			// Зміна фонового кольору для елементів прокрутки
+			scrollbarDragElRef.current.style.backgroundColor = '#6073A1';
+			scrollbarElRef.current.style.backgroundColor = 'rgba(67, 79, 112, 0.4)';
+			// scrollbarElRef.current.style.maxWidth = '50%';
+		}
+	}, [swiperRef.current]);
 
-		useEffect(() => {
-			const swiperInstance = swiperRef.current.swiper;
-			const scrollbar = swiperInstance.scrollbar;
-
-			if (scrollbar) {
-				scrollbarDragElRef.current = scrollbar.dragEl;
-				scrollbarElRef.current = scrollbar.el;
-				// Зміна фонового кольору для елементів прокрутки
-				scrollbarDragElRef.current.style.backgroundColor = 'red';
-				scrollbarElRef.current.style.backgroundColor = 'purple';
-				scrollbarElRef.current.style.width = '50%';
-				
-			}
-		}, [swiperRef.current]);
-
-		useEffect(() => {
-			// Ви можете використовувати scrollbarDragElRef.current і scrollbarElRef.current тут
-			// Наприклад:
-			console.log(scrollbarDragElRef.current);
-			console.log(scrollbarElRef.current);
-		}, [scrollbarDragElRef.current, scrollbarElRef.current]);
-
-
+	useEffect(() => {
+		// Ви можете використовувати scrollbarDragElRef.current і scrollbarElRef.current тут
+		// Наприклад:
+		console.log(swiperRef);
+	}, [scrollbarDragElRef.current, scrollbarElRef.current]);
 
 	// const swiperRef = useRef(null);
-
 
 	// 		useEffect(() => {
 	// 			console.log(swiperRef.current.swiper.scrollbar.dragEl);
 	// 			console.log(swiperRef.current.swiper.scrollbar.el);
 	// 		}, [swiperRef.current]);
-
-
-
-
-
 
 	// useEffect(() => {
 	// 	const handleResize = () => {
@@ -87,8 +75,9 @@ const Slider = () => {
 			spaceBetween={20}
 			slidesPerView={4.3}
 			scrollbar={{
-				
 				draggable: true,
+				dragSize: '60px',
+				el: '.some',
 			}}
 			breakpoints={{
 				50: {
@@ -133,6 +122,7 @@ const Slider = () => {
 					</SwiperSlide>
 				);
 			})}
+			<div className="some"></div>
 		</Swiper>
 	);
 };
