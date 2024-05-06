@@ -28,14 +28,13 @@ const Slider = () => {
 		const scrollbar = document.querySelector('.swiper-scrollbar');
 		if (scroll && scrollbar) {
 			scroll.style.background = '#6073A1';
-			scrollbar.style.cssText = `background: rgba(67, 79, 112, 0.4); height: .6rem; width: ${
+			scrollbar.style.cssText = `background: rgba(67, 79, 112, 0.4); height: .6rem; max-width: ${
 				windowWidth > 768 ? 66 : 90
 			}%; position: absolute; top: 100%; left: 50%;transform: translate(${windowWidth > 768 ? -57 : -53}%, -100%);`;
 		}
 	}, [windowWidth]);
 
 	return (
-		<div style={{ overflow: 'hidden !important' }}>
 			<Swiper
 				className={styles.slider}
 				modules={[Scrollbar, A11y]}
@@ -86,7 +85,6 @@ const Slider = () => {
 					);
 				})}
 			</Swiper>
-		</div>
 	);
 };
 
