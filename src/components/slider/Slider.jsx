@@ -13,7 +13,18 @@ const Slider = () => {
 
 	const swiperRef = useRef(null);
 	const scrollbarDragElRef = useRef(null);
-	const scrollbarElRef = useRef(null);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setWindowWidth(window.innerWidth);
+		};
+
+		window.addEventListener('resize', handleResize);
+
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
 
 	useEffect(() => {
 		const swiperInstance = swiperRef.current.swiper;
@@ -21,51 +32,10 @@ const Slider = () => {
 
 		if (scrollbar) {
 			scrollbarDragElRef.current = scrollbar.dragEl;
-			scrollbarElRef.current = scrollbar.el;
-			// Зміна фонового кольору для елементів прокрутки
+
 			scrollbarDragElRef.current.style.backgroundColor = '#6073A1';
-			scrollbarElRef.current.style.backgroundColor = 'rgba(67, 79, 112, 0.4)';
-			// scrollbarElRef.current.style.maxWidth = '50%';
 		}
 	}, [swiperRef.current]);
-
-	useEffect(() => {
-		// Ви можете використовувати scrollbarDragElRef.current і scrollbarElRef.current тут
-		// Наприклад:
-		console.log(swiperRef);
-	}, [scrollbarDragElRef.current, scrollbarElRef.current]);
-
-	// const swiperRef = useRef(null);
-
-	// 		useEffect(() => {
-	// 			console.log(swiperRef.current.swiper.scrollbar.dragEl);
-	// 			console.log(swiperRef.current.swiper.scrollbar.el);
-	// 		}, [swiperRef.current]);
-
-	// useEffect(() => {
-	// 	const handleResize = () => {
-	// 		setWindowWidth(window.innerWidth);
-	// 	};
-
-	// 	window.addEventListener('resize', handleResize);
-
-	// 	return () => {
-	// 		window.removeEventListener('resize', handleResize);
-	// 	};
-	// }, []);
-
-	// useEffect(() => {
-	// 	const scroll = document.querySelector('.swiper-scrollbar-drag');
-	// 	const scrollbar = document.querySelector('.swiper-scrollbar');
-	// 	if (scroll && scrollbar) {
-	// 		scroll.style.background = '#6073A1';
-	// 		scrollbar.style.cssText = `background: rgba(67, 79, 112, 0.4); height: .6rem; max-width: ${
-	// 			windowWidth > 768 ? 66 : 90
-	// 		}%; position: absolute; top: 100%; left: 50%;transform: translate(${
-	// 			windowWidth > 768 ? -57 : -53
-	// 		}%, -100%);`;
-	// 	}
-	// }, [windowWidth]);
 
 	return (
 		<Swiper
@@ -76,8 +46,8 @@ const Slider = () => {
 			slidesPerView={4.3}
 			scrollbar={{
 				draggable: true,
-				dragSize: '60px',
-				el: '.some',
+				dragSize: windowWidth >= 768 ? '189px' : '61px',
+				el: '.custom_slider_scrollbar',
 			}}
 			breakpoints={{
 				50: {
@@ -122,7 +92,7 @@ const Slider = () => {
 					</SwiperSlide>
 				);
 			})}
-			<div className="some"></div>
+			<div className="custom_slider_scrollbar"></div>
 		</Swiper>
 	);
 };
